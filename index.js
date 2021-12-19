@@ -100,7 +100,7 @@ app.post("/forgot-password", async(request, response)=>{
     const token = jwt.sign({email:userFromDB.email, id:userFromDB._id, username:userFromDB.username},secret,{expiresIn: "15m"})
     
 
-    const link = `http://localhost:9000/reset-password/${userFromDB._id}/${token}`
+    const link = `https://reset-password-app-task.herokuapp.com/reset-password/${userFromDB._id}/${token}`
     
 
     transporter.sendMail({
@@ -131,7 +131,7 @@ app.get("/reset-password/:id/:token", async(request, response, next)=>{
     const secret = process.env.SECRET_KEY + userFromDB.password
     try{
         const result = jwt.verify(token, secret)
-        response.redirect(`http://localhost:3000/reset/${userFromDB._id}/${token}`)
+        response.redirect(`https://forgot-password-app-task.netlify.app/reset/${userFromDB._id}/${token}`)
     }catch(error){
         
         response.send(error.message)
